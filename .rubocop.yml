@@ -1,0 +1,40 @@
+require:
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - 'vendor/bundle'
+    - 'bin/bundle'
+  NewCops: enable
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/MethodLength:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Exclude:
+    - "spec/**/*"
+
+Style/NumericLiterals:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
