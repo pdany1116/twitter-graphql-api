@@ -48,6 +48,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'rubocop-graphql'
 end
 
 group :development do
