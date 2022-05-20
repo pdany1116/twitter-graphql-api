@@ -7,7 +7,7 @@ RSpec.describe Mutations::CreateTweet do
 
   describe ".resolve" do
     context "with valid tweet" do
-      let(:createTweetInput) do
+      let(:create_tweet_input) do
         {
           content: content
         }
@@ -15,13 +15,13 @@ RSpec.describe Mutations::CreateTweet do
       let(:content) { Faker::Beer.brand }
 
       it "creates a tweet" do
-        expect { create_tweet.resolve(createTweetInput) }.to change { Tweet.count }.by(1)
+        expect { create_tweet.resolve(create_tweet_input) }.to change(Tweet, :count).by(1)
       end
 
       it "returns the created tweet id" do
-        response = create_tweet.resolve(createTweetInput)
+        response = create_tweet.resolve(create_tweet_input)
 
-        expect(response).to eq ({ tweet: { id: Tweet.last.id } }) 
+        expect(response).to eq({ tweet: { id: Tweet.last.id } })
       end
     end
   end
