@@ -2,14 +2,14 @@
 
 module Mutations
   class CreateTweet < Mutations::BaseMutation
-    argument :input, Types::CreateTweetInput, required: true
+    argument :content, String
 
     field :tweet, Types::TweetType
 
     def resolve(input)
-      tweet = Tweet.create(input)
+      tweet = Tweet.create(content: input["content"])
 
-      { tweet: { id: tweet.id } }
+      { tweet: tweet }
     end
   end
 end
