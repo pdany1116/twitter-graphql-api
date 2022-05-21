@@ -24,7 +24,7 @@ RSpec.describe TwitterGraphqlApiSchema do
         GQL
       end
 
-      fit "returns the created tweet with correct id and content" do
+      it "returns the created tweet with correct id and content" do
         # TODO: add factory bot
         tweet = Tweet.create(content: content)
         resource = Resource.create(image: "https://placekitten.com/200/300")

@@ -32,6 +32,11 @@ RSpec.describe TwitterGraphqlApiSchema do
           tweets {
             id
             content
+            resources {
+              image {
+                url
+              }
+            }
           }
         }
       GQL
@@ -42,9 +47,15 @@ RSpec.describe TwitterGraphqlApiSchema do
       query_result = execute_query
 
       tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
+      pp tweets
       expect(tweets.include?({
                                id: mutation_result.dig("data", "createTweet", "tweet", "id"),
-                               content: content
+                               content: content,
+                               resources: [
+                                 image: {
+                                   url: "https://placekitten.com/200/300"
+                                 }
+                               ]
                              })).to eq true
     end
   end
