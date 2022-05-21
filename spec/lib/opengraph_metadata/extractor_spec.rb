@@ -24,16 +24,16 @@ RSpec.describe OpenGraphMetadata::Extractor do
       context "with empty url" do
         let(:url) { "" }
 
-        it "raises invalid format url", skip: "Not implemented yet" do
-          expect { extract }.to raise_error("Invalid format of URL!")
+        it "raises invalid format url" do
+          expect { extract }.to raise_error(OpenGraphMetadata::InvalidURLFormat, "Invalid format of URL!")
         end
       end
 
       context "with incorrect format of url (wrong protocol)" do
         let(:url) { "ht://12ft.io/" }
 
-        it "raises invalid format url", skip: "Not implemented yet" do
-          expect { extract }.to raise_error("Invalid format of URL!")
+        it "raises invalid format url" do
+          expect { extract }.to raise_error(OpenGraphMetadata::InvalidURLFormat, "Invalid format of URL!")
         end
       end
     end

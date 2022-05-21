@@ -3,10 +3,15 @@ require 'open-uri' # Load content from URL
 require 'uri'
 
 module OpenGraphMetadata
+  class InvalidURLFormat < StandardError
+  end
+
   class Extractor
     attr_reader :url
 
     def initialize(url)
+      raise InvalidURLFormat, "Invalid format of URL!" if !url.starts_with?("http")
+
       @url = url
     end
   
