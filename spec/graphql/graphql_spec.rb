@@ -37,12 +37,12 @@ RSpec.describe TwitterGraphqlApiSchema do
       GQL
     end
 
-    it "returns the created tweet", :skip => "Tweet Query Type not implemented yet" do
+    it "returns the created tweet" do
       mutation_result = execute_mutation
       query_result = execute_query
 
-      expect(mutation_result.dig("data", "createTweet", "tweet", "id")).to eq query_result.dig("tweets", "id")
-      expect(mutation_result.dig("data", "createTweet", "tweet", "content")).to eq query_result.dig("tweets", "content")
+      expect(query_result.dig("data", "tweets", 0, "id")).to eq mutation_result.dig("data", "createTweet", "tweet", "id")
+      expect(query_result.dig("data", "tweets", 0, "content")).to eq content
     end
   end
 end
