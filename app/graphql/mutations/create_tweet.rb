@@ -9,7 +9,7 @@ module Mutations
     def resolve(input)
       tweet = Tweet.create(content: input[:content])
 
-      { tweet: tweet }
+      { tweet: }
     end
   end
 end
