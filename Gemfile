@@ -50,6 +50,7 @@ group :development, :test do
   gem 'rubocop-graphql'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
+  gem 'graphiql-rails'
 end
 
 group :development do
