@@ -2,26 +2,40 @@
 
 require 'rails_helper'
 
-RSpec.describe Mutations::CreateTweet do
-  subject(:create_tweet) { described_class.new(object: nil, context: nil, field: nil) }
+RSpec.describe TwitterGraphqlApiSchema do
+  describe "create tweet mutation" do
+    subject(:execute_mutation) { described_class.execute(mutation, variables: variables) }
 
-  describe ".resolve" do
-    context "with valid tweet" do
-      let(:create_tweet_input) do
+    context "with create tweet" do
+      let(:content) { Faker::Beer.brand }
+      let(:mutation) do
+        <<~GQL
+          mutation($input: CreateTweetInput!) {
+            createTweet(input: $input) {
+              tweet {
+                id
+              }
+            }
+          }
+        GQL
+      end
+      let(:variables) do
         {
-          content: content
+          input:
+          {
+            content: content
+          }
         }
       end
-      let(:content) { Faker::Beer.brand }
 
       it "creates a tweet" do
-        expect { create_tweet.resolve(create_tweet_input) }.to change(Tweet, :count).by(1)
+        expect { execute_mutation }.to change(Tweet, :count).by(1)
       end
 
       it "returns the created tweet id" do
-        response = create_tweet.resolve(create_tweet_input)
+        result = execute_mutation
 
-        expect(response).to eq({ tweet: { id: Tweet.last.id } })
+        expect(result.dig("data", "createTweet", "tweet", "id")).to eq Tweet.last.id
       end
     end
   end
