@@ -41,8 +41,11 @@ RSpec.describe TwitterGraphqlApiSchema do
       mutation_result = execute_mutation
       query_result = execute_query
 
-      expect(query_result.dig("data", "tweets", 0, "id")).to eq mutation_result.dig("data", "createTweet", "tweet", "id")
-      expect(query_result.dig("data", "tweets", 0, "content")).to eq content
+      tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
+      expect(tweets.include?({
+                               id: mutation_result.dig("data", "createTweet", "tweet", "id"),
+                               content: content
+                             })).to eq true
     end
   end
 end

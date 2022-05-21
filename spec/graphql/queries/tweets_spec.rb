@@ -22,10 +22,13 @@ RSpec.describe TwitterGraphqlApiSchema do
       it "returns the created tweet with correct id and content" do
         tweet = Tweet.create(content: content)
 
-        result = execute_query
+        query_result = execute_query
 
-        expect(result.dig("data", "tweets", 0, "id")).to eq tweet.id
-        expect(result.dig("data", "tweets", 0, "content")).to eq tweet.content
+        tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
+        expect(tweets.include?({
+                                id: tweet.id,
+                                content: tweet.content
+                              })).to eq true
       end
     end
   end
