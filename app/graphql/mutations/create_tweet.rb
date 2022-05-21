@@ -7,7 +7,7 @@ module Mutations
     field :tweet, Types::TweetType
 
     def resolve(input)
-      tweet = Tweet.create(content: input["content"])
+      tweet = Tweet.create(content: input[:content])
 
       { tweet: tweet }
     end
