@@ -38,3 +38,12 @@ RSpec/NestedGroups:
 
 Metrics/BlockLength:
   Enabled: false
+
+Lint/EmptyBlock:
+  Enabled: false
+
+RSpec/RepeatedExample:
+  Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false
