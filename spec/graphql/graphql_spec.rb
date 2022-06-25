@@ -6,7 +6,7 @@ RSpec.describe TwitterGraphqlApiSchema do
   context "with valid tweet" do
     let(:execute_mutation) { described_class.execute(mutation, variables: variables) }
     let(:execute_query) { described_class.execute(query) }
-    let(:content) { Faker::Beer.brand }
+    let(:content) { "Here is a link -> https://ogp.me/" }
     let(:mutation) do
       <<~GQL
         mutation($input: CreateTweetInput!) {
@@ -33,6 +33,9 @@ RSpec.describe TwitterGraphqlApiSchema do
             id
             content
             resources {
+              title
+              description
+              url
               image {
                 url
               }
@@ -47,13 +50,16 @@ RSpec.describe TwitterGraphqlApiSchema do
       query_result = execute_query
 
       tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
-      pp tweets
+
       expect(tweets.include?({
                                id: mutation_result.dig("data", "createTweet", "tweet", "id"),
                                content: content,
                                resources: [
+                                title: "Open Graph protocol",
+                                description: "The Open Graph protocol enables any web page to become a rich object in a social graph.",
+                                url: "https://ogp.me/",
                                  image: {
-                                   url: "https://placekitten.com/200/300"
+                                   url: "https://ogp.me/logo.png"
                                  }
                                ]
                              })).to eq true

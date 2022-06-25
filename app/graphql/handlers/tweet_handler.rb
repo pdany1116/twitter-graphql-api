@@ -1,11 +1,21 @@
+# frozen_string_literal: true
+
+require 'uri'
+require "./lib/opengraph_metadata"
+
 module Handlers
   class TweetHandler
     def self.handle(content)
       tweet = Tweet.create(content: content)
+      urls = URI.extract(content).uniq
 
-      10.times do
-        resource = Resource.create(image: "https://placekitten.com/200/300")
-        tweet.resources << resource
+      urls.map do |url|
+        begin
+          resource = Resource.create(OpenGraphMetadata::Extractor.new(url).extract)
+          tweet.resources << resource
+        rescue OpenGraphMetadata::InvalidURLFormat
+          # Ignored
+        end
       end
 
       tweet
