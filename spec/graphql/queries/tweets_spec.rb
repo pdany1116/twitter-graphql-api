@@ -10,22 +10,36 @@ RSpec.describe TwitterGraphqlApiSchema do
       let(:content) { Faker::Beer.brand }
       let(:query) do
         <<~GQL
-        query {
-          tweets {
-            id
-            content
+          query {
+            tweets {
+              id
+              content
+              resources {
+                image {
+                  url
+                }
+              }
+            }
           }
-        }
         GQL
       end
 
       it "returns the created tweet with correct id and content" do
+        # TODO: add factory bot
         tweet = Tweet.create(content: content)
+        resource = Resource.create(image: "https://placekitten.com/200/300")
+        tweet.resources << resource
 
-        result = execute_query
+        query_result = execute_query
 
-        expect(result.dig("data", "tweets", 0, "id")).to eq tweet.id
-        expect(result.dig("data", "tweets", 0, "content")).to eq tweet.content
+        tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
+        expect(tweets.include?({
+                                 id: tweet.id,
+                                 content: tweet.content,
+                                 resources: [
+                                   image: { url: "https://placekitten.com/200/300" }
+                                 ]
+                               })).to eq true
       end
     end
   end

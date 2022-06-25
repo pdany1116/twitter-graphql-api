@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
 class Resource < ApplicationRecord
-  belongs_to :tweet
+  has_and_belongs_to_many :tweets
 end

@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -12,19 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_20_170250) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_21_102651) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "resources", force: :cascade do |t|
-    t.bigint "tweet_id", null: false
     t.string "title"
     t.string "description"
     t.string "url"
     t.string "image"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["tweet_id"], name: "index_resources_on_tweet_id"
+  end
+
+  create_table "resources_tweets", id: false, force: :cascade do |t|
+    t.bigint "tweet_id"
+    t.bigint "resource_id"
+    t.index ["resource_id"], name: "index_resources_tweets_on_resource_id"
+    t.index ["tweet_id"], name: "index_resources_tweets_on_tweet_id"
   end
 
   create_table "tweets", force: :cascade do |t|
@@ -33,5 +36,4 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_20_170250) do
     t.datetime "updated_at", null: false
   end
 
-  add_foreign_key "resources", "tweets"
 end
