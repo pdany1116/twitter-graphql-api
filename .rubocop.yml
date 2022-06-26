@@ -39,6 +39,12 @@ RSpec/NestedGroups:
 Metrics/BlockLength:
   Enabled: false
 
+RSpec/FilePath:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
 Lint/EmptyBlock:
   Enabled: false
 

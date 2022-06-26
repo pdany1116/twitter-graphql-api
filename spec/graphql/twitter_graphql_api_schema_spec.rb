@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe TwitterGraphqlApiSchema do
   context "with valid tweet" do
     let(:execute_create_tweet_mutation) { described_class.execute(create_tweet_mutation, variables: create_tweet_variables) }
-    let(:execute_delete_tweet_mutation) { described_class.execute(delete_tweet_mutation, variables: delete_tweet_variables ) }
+    let(:execute_delete_tweet_mutation) { described_class.execute(delete_tweet_mutation, variables: delete_tweet_variables) }
     let(:execute_query) { described_class.execute(query) }
     let(:content) { "Here is a link -> https://ogp.me/" }
     let(:create_tweet_mutation) do
@@ -75,14 +75,14 @@ RSpec.describe TwitterGraphqlApiSchema do
                                id: mutation_result.dig("data", "createTweet", "tweet", "id"),
                                content: content,
                                resources: [
-                                title: "Open Graph protocol",
-                                description: "The Open Graph protocol enables any web page to become a rich object in a social graph.",
-                                url: "https://ogp.me/",
+                                 title: "Open Graph protocol",
+                                 description: "The Open Graph protocol enables any web page to become a rich object in a social graph.",
+                                 url: "https://ogp.me/",
                                  image: {
                                    url: "https://ogp.me/logo.png"
                                  }
                                ]
-                             })).to eq true
+                             })).to be true
     end
 
     it "deletes the created tweet" do
@@ -103,7 +103,7 @@ RSpec.describe TwitterGraphqlApiSchema do
                                    url: "https://ogp.me/logo.png"
                                  }
                                ]
-                             })).to eq true
+                             })).to be true
 
       delete_tweet_variables[:input][:id] = tweet_id
       execute_delete_tweet_mutation
@@ -111,7 +111,7 @@ RSpec.describe TwitterGraphqlApiSchema do
 
       tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
 
-      expect(tweets.include?({ id: tweet_id })).to eq false
+      expect(tweets.include?({ id: tweet_id })).to be false
     end
   end
 end

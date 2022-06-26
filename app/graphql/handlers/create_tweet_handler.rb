@@ -10,12 +10,10 @@ module Handlers
       urls = URI.extract(content).uniq
 
       urls.map do |url|
-        begin
-          resource = Resource.create(OpenGraphMetadata::Extractor.new(url).extract)
-          tweet.resources << resource
-        rescue OpenGraphMetadata::InvalidURLFormat
-          # Ignored
-        end
+        resource = Resource.create(OpenGraphMetadata::Extractor.new(url).extract)
+        tweet.resources << resource
+      rescue OpenGraphMetadata::InvalidURLFormat
+        # Ignored
       end
 
       tweet

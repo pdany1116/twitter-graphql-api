@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 require 'open-uri' # Load content from URL
 require 'uri'
@@ -10,11 +12,11 @@ module OpenGraphMetadata
     attr_reader :url
 
     def initialize(url)
-      raise InvalidURLFormat, "Invalid format of URL!" if !url.starts_with?("http")
+      raise InvalidURLFormat, "Invalid format of URL!" unless url.starts_with?("http")
 
       @url = url
     end
-  
+
     def extract
       doc = Nokogiri::HTML(URI.open(@url))
 

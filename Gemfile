@@ -50,11 +50,11 @@ group :development, :test do
   gem 'debug', platforms: %i[mri mingw x64_mingw]
   gem 'dotenv-rails'
   gem 'faker'
+  gem 'graphiql-rails'
   gem 'rspec-rails'
   gem 'rubocop-graphql'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
-  gem 'graphiql-rails'
 end
 
 group :development do

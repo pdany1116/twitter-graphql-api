@@ -6,15 +6,16 @@ require "./lib/opengraph_metadata"
 RSpec.describe TwitterGraphqlApiSchema do
   describe "delete tweet mutation" do
     subject(:execute_mutation) { described_class.execute(mutation, variables: variables) }
+
     let(:mutation) do
       <<~GQL
-          mutation($input: DeleteTweetInput!) {
-            deleteTweet(input: $input) {
-              tweet {
-                id
-              }
+        mutation($input: DeleteTweetInput!) {
+          deleteTweet(input: $input) {
+            tweet {
+              id
             }
           }
+        }
       GQL
     end
     let(:variables) do
