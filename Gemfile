@@ -52,6 +52,7 @@ group :development, :test do
   gem 'faker'
   gem 'graphiql-rails'
   gem 'rspec-rails'
+  gem 'rubocop-discourse'
   gem 'rubocop-graphql'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
