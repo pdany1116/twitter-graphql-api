@@ -4,7 +4,7 @@ require 'uri'
 require "./lib/opengraph_metadata"
 
 module Handlers
-  class TweetHandler
+  class CreateTweetHandler
     def self.handle(content)
       tweet = Tweet.create(content: content)
       urls = URI.extract(content).uniq

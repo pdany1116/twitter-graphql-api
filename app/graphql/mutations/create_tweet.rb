@@ -7,7 +7,7 @@ module Mutations
     field :tweet, Types::TweetType
 
     def resolve(input)
-      { tweet: Handlers::TweetHandler.handle(input[:content]) }
+      { tweet: Handlers::CreateTweetHandler.handle(input[:content]) }
     end
   end
 end
