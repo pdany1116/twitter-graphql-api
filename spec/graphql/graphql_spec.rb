@@ -4,10 +4,11 @@ require 'rails_helper'
 
 RSpec.describe TwitterGraphqlApiSchema do
   context "with valid tweet" do
-    let(:execute_mutation) { described_class.execute(mutation, variables: variables) }
+    let(:execute_create_tweet_mutation) { described_class.execute(create_tweet_mutation, variables: create_tweet_variables) }
+    let(:execute_delete_tweet_mutation) { described_class.execute(delete_tweet_mutation, variables: delete_tweet_variables ) }
     let(:execute_query) { described_class.execute(query) }
     let(:content) { "Here is a link -> https://ogp.me/" }
-    let(:mutation) do
+    let(:create_tweet_mutation) do
       <<~GQL
         mutation($input: CreateTweetInput!) {
           createTweet(input: $input) {
@@ -18,12 +19,31 @@ RSpec.describe TwitterGraphqlApiSchema do
         }
       GQL
     end
-    let(:variables) do
+    let(:create_tweet_variables) do
       {
         input:
         {
           content: content
         }
+      }
+    end
+    let(:delete_tweet_mutation) do
+      <<~GQL
+        mutation($input: DeleteTweetInput!) {
+          deleteTweet(input: $input) {
+            tweet {
+              id
+            }
+          }
+        }
+      GQL
+    end
+    let(:delete_tweet_variables) do
+      {
+        input:
+          {
+            id: 0
+          }
       }
     end
     let(:query) do
@@ -46,7 +66,7 @@ RSpec.describe TwitterGraphqlApiSchema do
     end
 
     it "returns the created tweet" do
-      mutation_result = execute_mutation
+      mutation_result = execute_create_tweet_mutation
       query_result = execute_query
 
       tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
@@ -63,6 +83,35 @@ RSpec.describe TwitterGraphqlApiSchema do
                                  }
                                ]
                              })).to eq true
+    end
+
+    it "deletes the created tweet" do
+      mutation_result = execute_create_tweet_mutation
+      query_result = execute_query
+
+      tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
+      tweet_id = mutation_result.dig("data", "createTweet", "tweet", "id")
+
+      expect(tweets.include?({
+                               id: tweet_id,
+                               content: content,
+                               resources: [
+                                 title: "Open Graph protocol",
+                                 description: "The Open Graph protocol enables any web page to become a rich object in a social graph.",
+                                 url: "https://ogp.me/",
+                                 image: {
+                                   url: "https://ogp.me/logo.png"
+                                 }
+                               ]
+                             })).to eq true
+
+      delete_tweet_variables[:input][:id] = tweet_id
+      execute_delete_tweet_mutation
+      query_result = execute_query
+
+      tweets = JSON.parse(query_result["data"]["tweets"].to_json, symbolize_names: true)
+
+      expect(tweets.include?({ id: tweet_id })).to eq false
     end
   end
 end
