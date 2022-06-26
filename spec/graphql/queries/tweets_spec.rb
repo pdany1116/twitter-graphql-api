@@ -39,7 +39,7 @@ RSpec.describe TwitterGraphqlApiSchema do
                                  resources: [
                                    image: { url: "https://placekitten.com/200/300" }
                                  ]
-                               })).to eq true
+                               })).to be true
       end
     end
   end

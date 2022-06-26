@@ -9,7 +9,7 @@ module Types
     field :url, String, null: false
 
     def image
-      OpenStruct.new(url: self.object.image)
+      OpenStruct.new(url: object.image)
     end
   end
 end

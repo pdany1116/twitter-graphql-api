@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "./lib/opengraph_metadata"
 require "rails_helper"
 
