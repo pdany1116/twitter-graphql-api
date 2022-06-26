@@ -53,3 +53,15 @@ RSpec/RepeatedExample:
 
 Naming/MethodParameterName:
   Enabled: false
+
+Security/Open:
+  Enabled: false
+
+Rails/HasAndBelongsToMany:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: false
+
+Rails/CreateTableWithTimestamps:
+  Enabled: false
