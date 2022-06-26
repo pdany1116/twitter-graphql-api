@@ -57,7 +57,7 @@ jobs:
         run: bin/rails db:create db:schema:load
 
       - name: Run lint
-        run: bundle exec rubocop
+        run: rubocop
 
       - name: Run tests
-        run: bundle exec rspec
+        run: rspec
